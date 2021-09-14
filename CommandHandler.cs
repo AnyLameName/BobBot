@@ -34,7 +34,9 @@ public class CommandHandler
         // Make sure this is being addressed to us and not from another bot.
         if(!(msg.HasCharPrefix('!', ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
            msg.Author.IsBot)
+        {
            return;
+        }
 
         // If we get here then we actually want to process this message as a command. We need a context for it.
         var context = new SocketCommandContext(_client, msg);
