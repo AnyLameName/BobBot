@@ -44,7 +44,7 @@ class BGSearchService {
         string token = await GetToken();
 
         _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-        var jsonString = await _client.GetStringAsync($"https://us.api.blizzard.com/hearthstone/cards?textFilter={searchText}&locale=en_us&gameMode=battlegrounds");
+        var jsonString = await _client.GetStringAsync($"https://us.api.blizzard.com/hearthstone/cards?textFilter={searchText}&locale=en_us&gameMode=battlegrounds&type=minion");
         SearchResults searchResults = JsonSerializer.Deserialize<SearchResults>(jsonString);
 
         return searchResults.Cards;
