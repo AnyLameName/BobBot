@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using System.Collections.Generic;
+using System.Web;
 
 public class CardSearchModule : ModuleBase<SocketCommandContext>
 {
@@ -23,7 +25,16 @@ public class CardSearchModule : ModuleBase<SocketCommandContext>
         }
         else if(results.Count == 1)
         {
-            await Context.Channel.SendMessageAsync($"Found a match! You card: '{results[0]}'");
+            //await Context.Channel.SendMessageAsync($"Found a match! You card: '{results[0]}'");
+            var card = results[0];
+            var encodedName = HttpUtility.UrlEncode(card.Name);
+            var blizzUrl = $"https://playhearthstone.com/en-us/battlegrounds?textFilter={encodedName}&type=minion";
+            var embed = new EmbedBuilder {
+                Title = card.Name,
+                ImageUrl = card.battlegroundsData.Image,
+            };
+            embed.Url = blizzUrl;
+            await Context.Channel.SendMessageAsync(embed: embed.Build());
         }
         else
         {

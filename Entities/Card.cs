@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 class Card
 {
+    [JsonPropertyName("name")]
+    public string Name { get; set;}
+
     [JsonPropertyName("slug")]
     public string Slug { get; set; }
 
@@ -10,6 +13,6 @@ class Card
 
     public override string ToString()
     {
-        return Slug;
+        return Name;
     }
 }
