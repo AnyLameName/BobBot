@@ -47,8 +47,20 @@ class BGSearchService {
         var builder = new UriBuilder("https://us.api.blizzard.com/hearthstone/cards");
         builder.Query = $"textFilter={searchText}&locale=en_us&gameMode=battlegrounds&type=minion";
         var jsonString = await _client.GetStringAsync(builder.Uri);
-        SearchResults searchResults = JsonSerializer.Deserialize<SearchResults>(jsonString);
+        var searchResults = JsonSerializer.Deserialize<SearchResults>(jsonString);
 
         return searchResults.Cards;
+    }
+
+    public async Task<Card> GetByIdAsync(int id)
+    {
+        Console.WriteLine($"Getting Battlegrounds card by id: {id}");
+        string token = await GetToken();
+
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        var builder = new UriBuilder($"https://us.api.blizzard.com/hearthstone/cards/{id}");
+        builder.Query = $"locale=en_us&gameMode=battlegrounds";
+        var jsonString = await _client.GetStringAsync(builder.Uri);
+        return JsonSerializer.Deserialize<Card>(jsonString);
     }
 }
