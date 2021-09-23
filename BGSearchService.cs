@@ -45,7 +45,7 @@ class BGSearchService {
 
         _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         var builder = new UriBuilder("https://us.api.blizzard.com/hearthstone/cards");
-        builder.Query = $"textFilter={searchText}&locale=en_us&gameMode=battlegrounds&type=minion";
+        builder.Query = $"textFilter={searchText}&locale=en_us&gameMode=battlegrounds";
         var jsonString = await _client.GetStringAsync(builder.Uri);
         var searchResults = JsonSerializer.Deserialize<SearchResults>(jsonString);
 
